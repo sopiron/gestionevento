@@ -9,6 +9,16 @@ import datetime
     -valor del evento
     -cantidad de personas
     -contacto
+    .no se superponga dos eventos
+    .tope capacidad de personas
+    .precio variable depende la cantidad de persona, fecha,
+    .dispibilidad de fecha, en caso de no haber preguntar si desea una nueva fecha
+    .dispobilidad de comida
+    .funcion de presupuesto con ticket
+    .contacto
+    .metodo de pago
+    .cancelar el contrato
+
 '''
 def checkfecha(cantdias, mes, year): #generamos una funcion para chequear que la fecha sea correcta
 
@@ -102,9 +112,13 @@ match sis: #usamos un match case para seleccionar el menu a utilizar
             confirmacion= str(input('Desea agregar otro evento Y (YES) / N (NO)?: '))
 
 
-        for fila in matrizevento: #mostramos la matriz (pero hay que corregir algunas de como lo mostramos)
-            for elemento in fila:
-                print(elemento, '\n')
+        columna= len(matrizevento)
+        filas= len(matrizevento[0])
+
+        
+        for c in range(columna):
+            for f in range(filas):
+                print(matrizevento[c][f], end='')
             print('')
         
 
