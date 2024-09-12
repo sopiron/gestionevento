@@ -104,8 +104,8 @@ match sis: #usamos un match case para seleccionar el menu a utilizar
 
         for fila in matrizevento: #mostramos la matriz (pero hay que corregir algunas de como lo mostramos)
             for elemento in fila:
-                print(elemento)
-            print('\n')
+                print(elemento, '\n')
+            print('')
         
 
 
