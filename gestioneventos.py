@@ -59,65 +59,37 @@ def fechadisponible(fecha, tdfechas):
         return False
     
 
+while True:
 
-print('Sistema de gestion de eventos: \n\n 1. Gestion de eventos \n 2. Agregue un evento nuevo \n 3. Lista de invitados \n\n ')
-sis=int(input('Ingrese el numero de programa a utilizar: '))
+    print('Sistema de gestion de eventos: \n\n 1. Gestion de eventos \n 2. Agregue un evento nuevo \n 3. Lista de invitados \n 4.Salir del menu\n\n ')
+    sis=int(input('Ingrese el numero de programa a utilizar: '))
 
-match sis: #usamos un match case para seleccionar el menu a utilizar
-
-    case 1:
-        print('Panel sistema de gestion de eventos: ')
+    match sis: #usamos un match case para seleccionar el menu a utilizar
 
 
-    case 2:
+        case 1:
+            print('Panel sistema de gestion de eventos: ')
 
-        
-        print('Panel agregado evento nuevo: ')
-        nombre=str(input('Ingrese el nombre del evento: '))
-        evento.append(nombre)
-        fechaevento= input('Ingrese la fecha del evento (DD-MM-AAAA): ')
-        dia, mes, anio= map(int, fechaevento.split('-')) #mediante una funcion map separamos la fecha ingresada en la variable fechaevento
-        fechavalida= checkfecha(dia, mes, anio)
-        yacargado= fechadisponible(fechaevento,fechascargadas)
-    
-        if fechavalida and not yacargado:
-            date= datetime.date(anio, mes, dia) #utilizamos la libreria datetime para poder mostrar la fecha de una manera mas profesional, y pensando en cuando actualicemos el programa
-        while fechavalida==False or yacargado:
-            fechaevento= input('Ingrese la fecha del evento correctamente (DD-MM-AAAA): ')
-            dia, mes, anio= map(int, fechaevento.split('-'))
-            fechavalida= checkfecha(dia, mes, anio)
-            yacargado= fechadisponible(fechaevento, fechascargadas)
-            date= datetime.date(anio, mes, dia)
-        
-        evento.append(date.strftime('%m/%d/%y'))
-        fechascargadas.append(fechaevento)
 
-        nombrepersona= str(input('Ingrese el nombre de la persona: '))
-        evento.append(nombrepersona)
-        cantinvitados= int(input('Ingrese la cantidad de invitados: '))
-        evento.append(cantinvitados)
-        valor= int(input('Ingrese el valor del evento: '))
-        evento.append(valor)
-        matrizevento.append(evento)#guardamos la lista evento generando asi una matriz con los eventos
-        evento=[]#limpiamos la lista remplazandola por una lista vacia dado que el clear funciona insitu y borra la lista evento
-        confirmacion= str(input('Desea agregar otro evento Y (YES) / N (NO)?: '))
-        while confirmacion=='Y' or confirmacion=='y':
+        case 2:
+
+            
+            print('Panel agregado evento nuevo: ')
             nombre=str(input('Ingrese el nombre del evento: '))
             evento.append(nombre)
             fechaevento= input('Ingrese la fecha del evento (DD-MM-AAAA): ')
-            dia, mes, anio= map(int, fechaevento.split('-'))
+            dia, mes, anio= map(int, fechaevento.split('-')) #mediante una funcion map separamos la fecha ingresada en la variable fechaevento
             fechavalida= checkfecha(dia, mes, anio)
             yacargado= fechadisponible(fechaevento,fechascargadas)
-            
         
-            if fechavalida and yacargado==False:
+            if fechavalida and not yacargado:
                 date= datetime.date(anio, mes, dia) #utilizamos la libreria datetime para poder mostrar la fecha de una manera mas profesional, y pensando en cuando actualicemos el programa
-            while fechavalida==False or yacargado==True:
+            while fechavalida==False or yacargado:
                 fechaevento= input('Ingrese la fecha del evento correctamente (DD-MM-AAAA): ')
                 dia, mes, anio= map(int, fechaevento.split('-'))
                 fechavalida= checkfecha(dia, mes, anio)
                 yacargado= fechadisponible(fechaevento, fechascargadas)
-                date= datetime.date(anio, mes, dia) #!!! hay que arreglar aca, hay que agregar el check de la fecha antes de esto porque si ponemos una fecha mal se rompe con ese.
+                date= datetime.date(anio, mes, dia)
             
             evento.append(date.strftime('%m/%d/%y'))
             fechascargadas.append(fechaevento)
@@ -128,25 +100,59 @@ match sis: #usamos un match case para seleccionar el menu a utilizar
             evento.append(cantinvitados)
             valor= int(input('Ingrese el valor del evento: '))
             evento.append(valor)
-            matrizevento.append(evento)
-            evento=[]
+            matrizevento.append(evento)#guardamos la lista evento generando asi una matriz con los eventos
+            evento=[]#limpiamos la lista remplazandola por una lista vacia dado que el clear funciona insitu y borra la lista evento
             confirmacion= str(input('Desea agregar otro evento Y (YES) / N (NO)?: '))
+            while confirmacion=='Y' or confirmacion=='y':
+                nombre=str(input('Ingrese el nombre del evento: '))
+                evento.append(nombre)
+                fechaevento= input('Ingrese la fecha del evento (DD-MM-AAAA): ')
+                dia, mes, anio= map(int, fechaevento.split('-'))
+                fechavalida= checkfecha(dia, mes, anio)
+                yacargado= fechadisponible(fechaevento,fechascargadas)
+                
+            
+                if fechavalida and yacargado==False:
+                    date= datetime.date(anio, mes, dia) #utilizamos la libreria datetime para poder mostrar la fecha de una manera mas profesional, y pensando en cuando actualicemos el programa
+                while fechavalida==False or yacargado==True:
+                    fechaevento= input('Ingrese la fecha del evento correctamente (DD-MM-AAAA): ')
+                    dia, mes, anio= map(int, fechaevento.split('-'))
+                    fechavalida= checkfecha(dia, mes, anio)
+                    yacargado= fechadisponible(fechaevento, fechascargadas)
+                    date= datetime.date(anio, mes, dia) #!!! hay que arreglar aca, hay que agregar el check de la fecha antes de esto porque si ponemos una fecha mal se rompe con ese.
+                
+                evento.append(date.strftime('%m/%d/%y'))
+                fechascargadas.append(fechaevento)
+
+                nombrepersona= str(input('Ingrese el nombre de la persona: '))
+                evento.append(nombrepersona)
+                cantinvitados= int(input('Ingrese la cantidad de invitados: '))
+                evento.append(cantinvitados)
+                valor= int(input('Ingrese el valor del evento: '))
+                evento.append(valor)
+                matrizevento.append(evento)
+                evento=[]
+                confirmacion= str(input('Desea agregar otro evento Y (YES) / N (NO)?: '))
 
 
-        columna= len(matrizevento)
-        filas= len(matrizevento[0])
+            columna= len(matrizevento)
+            filas= len(matrizevento[0])
 
+            
+            for c in range(columna):
+                for f in range(filas):
+                    print(matrizevento[c][f])
+                print('')
+            
+
+
+            
         
-        for c in range(columna):
-            for f in range(filas):
-                print(matrizevento[c][f], end='')
-            print('')
-        
+        case 3:
+            print('Lista de invitados: ')
 
-
-        
-    
-    case 3:
-        print('Lista de invitados: ')
+        case 4:
+            print('Salir')
+            break
 
 
