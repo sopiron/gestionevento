@@ -3,6 +3,7 @@ import datetime
 evento=[]
 matrizevento=[]
 fechascargadas=[]
+listainvitados=[]
 
 '''
 1. Gestion de eventos:
@@ -61,7 +62,7 @@ def fechadisponible(fecha, tdfechas):
 
 while True:
 
-    print('Sistema de gestion de eventos: \n\n 1. Gestion de eventos \n 2. Agregue un evento nuevo \n 3. Lista de invitados \n 4.Salir del menu\n\n ')
+    print('Sistema de gestion de eventos: \n\n 1. Gestion de eventos \n 2. Agregue un evento nuevo \n 3. Lista de invitados \n 4. Salir del menu\n\n ')
     sis=int(input('Ingrese el numero de programa a utilizar: '))
 
     match sis: #usamos un match case para seleccionar el menu a utilizar
@@ -73,7 +74,6 @@ while True:
 
         case 2:
 
-            
             print('Panel agregado evento nuevo: ')
             nombre=str(input('Ingrese el nombre del evento: '))
             evento.append(nombre)
@@ -143,13 +143,17 @@ while True:
                 for f in range(filas):
                     print(matrizevento[c][f])
                 print('')
-            
-
-
-            
-        
+ 
         case 3:
             print('Lista de invitados: ')
+            
+            columna=len(matrizevento)
+
+            for c in range(columna):
+                nombreevento= matrizevento[c][0]
+                print(f'Seleccione alguno de los siguientes nombres ingresando un numero: \n {nombreevento} - {c}', end='.')
+
+            n=int(input('Ingrese '))
 
         case 4:
             print('Salir')
