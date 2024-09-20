@@ -4,12 +4,13 @@ evento=[]
 matrizevento=[]
 fechascargadas=[]
 listainvitados=[]
+dicinvitados={}
 
 '''
 1. Gestion de eventos:
 
-    .Fecha evento
-    .Persona evento
+    .Fecha evento-
+    .Persona evento-
     .Tipo de evento
     .horario de evento
     -valor del evento
@@ -24,32 +25,34 @@ listainvitados=[]
     .contacto
     .metodo de pago
     .cancelar el contrato
+    .agregar al diccionario como key el fechaevento de la persona
 
 '''
 def checkfecha(cantdias, mes, year): #generamos una funcion para chequear que la fecha sea correcta
 
-    if year<1900: #usamos el año 1900 dado que es el año a partir de donde funciona la libreria datetime
-        return False
-    else: return True
-
-    if mes==1 or mes==3 or mes==5 or mes==7 or mes==8 or mes==10 or mes==12:
-        if cantdias<=31 and cantdias>0:
-            return True
-        else: return False
-    elif mes==4 or mes==6 or mes==9 or mes==11:
-        if cantdias<=30 and cantdias>0:
-            return True
-        else: return False
-    elif mes==2:
-        if year%4==0 and year%100!=0 or year%400==0: #chequeamos los años biciestos
-            if cantdias<=29 and cantdias>0:
+    if year>=2024:
+        if mes==1 or mes==3 or mes==5 or mes==7 or mes==8 or mes==10 or mes==12:
+            if cantdias<=31 and cantdias>0:
                 return True
             else: return False
-        elif cantdias<=28 and cantdias>0:
-            return True
-        else: return False
-    else:
-        cantdias = False
+        elif mes==4 or mes==6 or mes==9 or mes==11:
+            if cantdias<=30 and cantdias>0:
+                return True
+            else: return False
+        elif mes==2:
+            if year%4==0 and year%100!=0 or year%400==0: #chequeamos los años biciestos
+                if cantdias<=29 and cantdias>0:
+                    return True
+                else: return False
+            elif cantdias<=28 and cantdias>0:
+                return True
+            else: return False
+        else:
+            return False
+    else: return False
+    
+
+    
 
 
 def fechadisponible(fecha, tdfechas):
@@ -62,7 +65,7 @@ def fechadisponible(fecha, tdfechas):
 
 while True:
 
-    print('Sistema de gestion de eventos: \n\n 1. Gestion de eventos \n 2. Agregue un evento nuevo \n 3. Lista de invitados \n 4. Salir del menu\n\n ')
+    print('Sistema de gestion de eventos: \n\n 1. Gestion de eventos \n 2. Agregue un evento nuevo \n 3. Lista de invitados \n 4. Facturacion \n 5.Salir del menu\n\n ')
     sis=int(input('Ingrese el numero de programa a utilizar: '))
 
     match sis: #usamos un match case para seleccionar el menu a utilizar
@@ -70,6 +73,8 @@ while True:
 
         case 1:
             print('Panel sistema de gestion de eventos: ')
+
+
 
 
         case 2:
@@ -96,6 +101,9 @@ while True:
 
             nombrepersona= str(input('Ingrese el nombre de la persona: '))
             evento.append(nombrepersona)
+            dnipersona= int(input('Ingrese el dni de la persona: '))
+            evento.append(dnipersona)
+            dicinvitados[dnipersona]=[]
             cantinvitados= int(input('Ingrese la cantidad de invitados: '))
             evento.append(cantinvitados)
             valor= int(input('Ingrese el valor del evento: '))
@@ -147,15 +155,17 @@ while True:
         case 3:
             print('Lista de invitados: ')
             
-            columna=len(matrizevento)
-
-            for c in range(columna):
-                nombreevento= matrizevento[c][0]
-                print(f'Seleccione alguno de los siguientes nombres ingresando un numero: \n {nombreevento} - {c}', end='.')
+            dnis= list(dicinvitados.keys)
+            for l in range(len(dnis)):
+                print(dnis[l])
+                print('')
 
             n=int(input('Ingrese '))
 
         case 4:
+            print('')
+
+        case 5:
             print('Salir')
             break
 
