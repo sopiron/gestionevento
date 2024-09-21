@@ -1,0 +1,117 @@
+import datetime
+
+#Funcion para validar la fecha
+def validarfecha(dias, mes, anio):
+    
+    
+    if anio>=2024:
+        if mes==1 or mes==3 or mes==5 or mes==7 or mes==8 or mes==10 or mes==12:
+            if dias<=31 and dias>0:
+                return True
+            else:
+                return False
+        elif mes==4 or mes==6 or mes==9 or mes==11:
+            if dias<=30 and dias>0:
+                return True
+            else:
+                return False
+        elif mes==2:
+            if anio%4==0 and anio%100!=0 or anio%400==0: #Se verifica si es año bisiesto
+                if dias<=29 and dias>0:
+                    return True
+                else:
+                    return False
+            elif dias<=28 and dias>0:
+                return True
+            else:
+                return False
+        else:
+            return False
+    else:
+        return False
+
+
+#Funcion para validar menu
+def validarmenu(menu):
+    while menu < 1 and menu > 5:
+        print("El numero de menu solicitado no esta disponible, por favor eliga un menu correcto: ")
+        print("\n 1. Gestion de eventos \n 2. Agregue un evento nuevo \n 3. Cantidad de invitados de invitados \n 4. Facturacion \n 5. Salir del menu")
+        print("*"*40)
+        menu = int(input('Ingrese el numero de programa a utilizar: '))
+    return menu
+
+#Funcion para validar string y para validar el tipo de evento
+def validarevento(tipoevento):
+    listatipoevento = dictipoevento.keys()
+    valido = tipoevento.isalpha()
+    
+    while valido == False:
+        print("Solo puede contener caracteres alfabeticos")
+        tipoevento = str(input('Ingrese el tipo de evento: '))
+        valido = tipoevento.isalpha()
+
+    while tipoevento not in tipoevento:
+        print("Error, el evento solicitado no esta en las opciones. Por favor, seleccionee nuevamente el tipo de evento: ")
+        for x in dictipoevento:
+            print(x,":","$",dictipoevento[x])
+        tipoevento = str(input('Ingrese el nombre del evento: '))
+        tipoevento = tipoevento.capitalize()
+    return nombreevento
+            
+
+#Funcion para agregar evento nuevo
+def agregarnuevoevento(dictipoevento):
+    
+    # Ingresar tipo de evento
+    print("Seleccione el tipo de evento: ")
+    for x in dictipoevento:
+        print(x,":","$",dictipoevento[x])
+    tipoevento = str(input('Ingrese el tipo de evento: '))
+    tipoevento = tipoevento.capitalize()
+    validarevento(tipoevento)
+    evento.append(tipoevento)
+    
+    
+    # Ingresar nombre de evento
+    nombreevento = str(input("Ingrese el nombre del evento: "))
+    valido = nombreevento.isalpha()
+    while valido == False:
+        print("Solo puede contener caracteres alfabeticos")
+        nombreevento = str(input('Ingrese el nombre de evento: '))
+        valido = nombreevento.isalpha()
+    evento.append(nombreevento)
+    
+    # Ingresa fecha del evento}
+    fechaevento = input("Ingrese fecha del evento(DD-MM-AAAA: )")
+    validarfecha(fechaevento)
+    
+
+#Funcion para elegir el menu
+def elegirmenu(menu):
+    match menu:
+        case 1:
+            pass
+        case 2:
+            print("Panel para agregar un evento nuevo: ")
+            nuevoevento = agregarnuevoevento()
+            
+            
+            
+            
+        
+
+
+################################################### Programa principal ###############################################################
+evento=[]
+matrizevento=[]
+fechascargadas=[]
+listainvitados=[]
+dicprecios={'Jubilados' : 2000 ,'Adultos': 5000 , 'Menores' : 3000}
+dictipoevento = {'Casamiento' : 500000 , 'Fiesta de quince' : 600000 , 'Comunion' : 400000 , 'Evento personalizado' : 300000}
+
+print('Sistema de gestion de eventos: \n\n 1. Gestion de eventos \n 2. Agregue un evento nuevo \n 3. Cantidad de invitados de invitados \n 4. Facturacion \n 5. Salir del menu\n\n ')
+print("*"*40)
+menu = int(input('Ingrese el numero de programa a utilizar: '))
+
+#Llamar funciones
+validarmenu(menu)
