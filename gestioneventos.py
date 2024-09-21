@@ -110,7 +110,6 @@ while True:
                 evento.append(nombrepersona)
                 dnipersona= int(input('Ingrese el dni de la persona: '))
                 evento.append(dnipersona)
-                dicinvitados[dnipersona]=[]
                 cantinvitados= int(input('Ingrese la cantidad de invitados: '))
                 evento.append(cantinvitados)
                 valorevento=cantinvitados*costoporpersona
@@ -120,6 +119,7 @@ while True:
                 acepta=ques(acepta)
                 if acepta:
                     matrizevento.append(evento)#guardamos la lista evento generando asi una matriz con los eventos
+                    evento=[]
                 else:
                     evento=[]#limpiamos la lista remplazandola por una lista vacia dado que el clear funciona insitu y borra la lista evento
                 confirmacion= str(input('Desea agregar otro evento Y (YES) / N (NO)?: '))
