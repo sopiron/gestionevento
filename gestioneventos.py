@@ -138,6 +138,35 @@ while True:
         case 4:
             print('Facturacion')
 
+            if len(matrizevento)==0:
+                print('-'*40)
+                print('\nNo hay eventos proximos\n')
+                print('-'*40)
+            else:
+                for c in range(len(matrizevento)):
+                    for f in range(len(matrizevento[0])):
+                        pass
+                    print(f'{c} -',matrizevento[c][0])
+                nroevento=int(input('Elija uno de los eventos para realizar la factura: '))
+                nombre=matrizevento[nroevento][0]
+                valorevento=matrizevento[nroevento][5]
+                nombrepersona=matrizevento[nroevento][2]
+                dnipersona=matrizevento[nroevento][3]
+
+                print('-'*40)
+                print('Facturacion Eventos'.center(40)) 
+                print()
+                print()
+                print(str(f'Sr/a {nombrepersona}').ljust(30))
+                print(str(f'DNI: {dnipersona}'.rjust(10)))
+                print()
+                print(str(nombre).ljust(30,'.'),end='')
+                print(str(valorevento).rjust(10,'.'))
+                print('-'*40)
+            
+            
+
+
         case 5:
             print('Salir')
             break
