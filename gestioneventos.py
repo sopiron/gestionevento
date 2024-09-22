@@ -128,12 +128,7 @@ while True:
         case 3:
             print('Lista de invitados: ')
             
-            dnis= list(dicinvitados.keys)
-            for l in range(len(dnis)):
-                print(dnis[l])
-                print('')
-
-            n=int(input('Ingrese '))
+            
 
         case 4:
             print('Facturacion')
@@ -144,8 +139,6 @@ while True:
                 print('-'*40)
             else:
                 for c in range(len(matrizevento)):
-                    for f in range(len(matrizevento[0])):
-                        pass
                     print(f'{c} -',matrizevento[c][0])
                 nroevento=int(input('Elija uno de los eventos para realizar la factura: '))
                 nombre=matrizevento[nroevento][0]
@@ -157,7 +150,7 @@ while True:
                 print('Facturacion Eventos'.center(40)) 
                 print()
                 print()
-                print(str(f'Sr/a {nombrepersona}').ljust(30))
+                print(str(f'Sr/a {nombrepersona}').ljust(30), end='')
                 print(str(f'DNI: {dnipersona}'.rjust(10)))
                 print()
                 print(str(nombre).ljust(30,'.'),end='')
