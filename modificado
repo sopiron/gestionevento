@@ -1,27 +1,25 @@
 import datetime
 
 #Funcion para validar la fecha
-def validarfecha(dias, mes, anio):
-    
-    
+def validarfecha(dia,mes,anio):
     if anio>=2024:
         if mes==1 or mes==3 or mes==5 or mes==7 or mes==8 or mes==10 or mes==12:
-            if dias<=31 and dias>0:
+            if dia<=31 and dia>0:
                 return True
             else:
                 return False
         elif mes==4 or mes==6 or mes==9 or mes==11:
-            if dias<=30 and dias>0:
+            if dia<=30 and dia>0:
                 return True
             else:
                 return False
         elif mes==2:
             if anio%4==0 and anio%100!=0 or anio%400==0: #Se verifica si es año bisiesto
-                if dias<=29 and dias>0:
+                if dia<=29 and dia>0:
                     return True
                 else:
                     return False
-            elif dias<=28 and dias>0:
+            elif dia<=28 and dia>0:
                 return True
             else:
                 return False
@@ -30,14 +28,59 @@ def validarfecha(dias, mes, anio):
     else:
         return False
 
+#Funcion para validar que la fecha solo tenga numeros
+def validar_numeros(valor_variable,nombre_variable):
+    valido_variable = valor_variable.isdigit()
+    while valido_variable == False:
+        print(f"Error, {nombre_variable} solo puede contener numeros enteros")
+        fecha = input(f'Ingrese {nombre_variable}: ')
+        valido_variable = valor_variable.isdigit()
+    return int(valor_variable)
+
+
+#Funcion para verificar si la fecha ya esta reservada
+def validar_fecha_cargada(fecha_evento,evento):
+    fechaok = True
+    if fecha_evento in evento:
+        fechaok = False
+        print(f"Lo lamento, la fecha {fecha_evento} ya esta reservada.")
+        pregunta_reserva = input("¿Desea reservar otra fecha(1=Si y 2=No)?: ")
+        valor_variable = valido_numeros(pregunta_reserva,"la respuesta con 1=Si o 2=No")
+        while valor_variable != 1 or valor_variable != 2:
+            print("Error, la respuesta solo admite los numeros 1=Si y 2=No")
+            pregunta_reserva = input("Ingrese la respuesta con 1=Si o 2=No: ")
+            valor_variable = valido_numeros(pregunta_reserva,"la respuesta con 1=Si o 2=No")
+        if valor_variable == 1:
+            pass
+        else:
+            fechaok = True
+            print('Sistema de gestion de eventos: \n\n 1. Gestion de eventos \n 2. Agregue un evento nuevo \n 3. Cantidad de invitados de invitados \n 4. Facturacion \n 5. Salir del menu\n\n ')
+            print("*"*40)
+            menu = int(input('Ingrese el numero de programa a utilizar: '))
+            validarmenu(menu)
+    else:
+        evento.append(fecha_evento)
+    return fechaok
+
+#Funcion para verificar que la cadena solo contenga letras
+def validar_cadena_de_caracteres(valor_cadena,nombre_cadena):
+    valido_cadena = valor_cadena.isalpha()
+    while valido_cadena == False:
+        print("Solo puede contener caracteres alfabeticos")
+        print("-"*40)
+        valor_cadena = input(f'Ingrese {nombre_cadena}: ')
+        valido_cadena = valor_cadena.isalpha()
+    return valor_cadena
 
 #Funcion para validar menu
 def validarmenu(menu):
+    menu = validar_numeros(menu,"el numero de programa a utilizar")
     while menu < 1 and menu > 5:
         print("El numero de menu solicitado no esta disponible, por favor eliga un menu correcto: ")
         print("\n 1. Gestion de eventos \n 2. Agregue un evento nuevo \n 3. Cantidad de invitados de invitados \n 4. Facturacion \n 5. Salir del menu")
         print("*"*40)
         menu = int(input('Ingrese el numero de programa a utilizar: '))
+        elegirmenu(menu)
     return menu
 
 #Funcion para validar string y para validar el tipo de evento
@@ -47,43 +90,63 @@ def validarevento(tipoevento):
     
     while valido == False:
         print("Solo puede contener caracteres alfabeticos")
-        tipoevento = str(input('Ingrese el tipo de evento: '))
+        tipoevento = input('Ingrese el tipo de evento: ')
         valido = tipoevento.isalpha()
 
-    while tipoevento not in tipoevento:
+    while tipoevento not in listatipoevento:
         print("Error, el evento solicitado no esta en las opciones. Por favor, seleccionee nuevamente el tipo de evento: ")
         for x in dictipoevento:
             print(x,":","$",dictipoevento[x])
-        tipoevento = str(input('Ingrese el nombre del evento: '))
+        tipoevento = str(input('Ingrese el tipo del evento: '))
         tipoevento = tipoevento.capitalize()
-    return nombreevento
-            
+    return tipoevento
+
 
 #Funcion para agregar evento nuevo
-def agregarnuevoevento(dictipoevento):
+def agregarnuevoevento(dictipoevento,evento):
     
     # Ingresar tipo de evento
     print("Seleccione el tipo de evento: ")
     for x in dictipoevento:
         print(x,":","$",dictipoevento[x])
-    tipoevento = str(input('Ingrese el tipo de evento: '))
+    tipoevento = input('Ingrese el tipo de evento: ')
     tipoevento = tipoevento.capitalize()
     validarevento(tipoevento)
     evento.append(tipoevento)
     
     
     # Ingresar nombre de evento
-    nombreevento = str(input("Ingrese el nombre del evento: "))
-    valido = nombreevento.isalpha()
-    while valido == False:
-        print("Solo puede contener caracteres alfabeticos")
-        nombreevento = str(input('Ingrese el nombre de evento: '))
-        valido = nombreevento.isalpha()
+    nombreevento = input("Ingrese el nombre del evento: ")
+    nombreevento = validar_cadena_de_caracteres(nombreevento,"el nombre del evento")
     evento.append(nombreevento)
     
-    # Ingresa fecha del evento}
-    fechaevento = input("Ingrese fecha del evento(DD-MM-AAAA: )")
-    validarfecha(fechaevento)
+    # Ingresa fecha del evento
+    fechaok = False
+    while fechaok == False:
+
+        dia = input("Ingrese dia del evento: ")
+        dia = validar_numeros(dia,"el dia del evento")
+        print("-"*40)
+
+        mes = input("Ingrese mes del evento: ")
+        mes = validar_numeros(mes,"el mes del evento")
+        print("-"*40)
+        
+        anio = input("Ingrese anio del evento: ")
+        anio = validar_numeros(anio,"el año del evento")
+        print("*"*40)
+        
+        #Se llama a la funcion validar fecha
+        if validarfecha(dia,mes,anio):
+            fechaok = True
+            fecha_evento = datetime.date(anio,mes,dia)
+            fechaok = validar_fecha_cargada(fecha_evento,evento)
+            print (f"La fecha {fecha_evento} esta disponible")
+        else:
+            print("Error, la fecha es incorrecta, por favor vuelva a ingresar")
+            
+        
+    
     
 
 #Funcion para elegir el menu
@@ -93,7 +156,7 @@ def elegirmenu(menu):
             pass
         case 2:
             print("Panel para agregar un evento nuevo: ")
-            nuevoevento = agregarnuevoevento()
+            nuevoevento = agregarnuevoevento(dictipoevento,evento)
             
             
             
@@ -115,3 +178,4 @@ menu = int(input('Ingrese el numero de programa a utilizar: '))
 
 #Llamar funciones
 validarmenu(menu)
+elegirmenu(menu)
