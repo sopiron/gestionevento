@@ -194,16 +194,27 @@ def agregarnuevoevento(dictipoevento,evento):
     cantidad_invitados.append(cantidad_menores)
     evento.append(cantidad_invitados)
     costo_evento=calcular_costo(cantidad_jubilados,cantidad_adultos,cantidad_menores,tipoevento)
-    acepta= str(input(f'El costo del evento es de {costo_evento}, acepta el contrato? Y(YES) - N(NO)'))
+    acepta= str(input(f'El costo del evento es de {costo_evento}, acepta el contrato? Si - No: '))
     contrato= acepta_contrato(acepta)
     if contrato:
-        print('acepta')
+        matrizevento.append
+        evento=[]
     if not contrato:
-        print('no acepta')
-    
+        evento=[]
+    acepta=str(input('Desea agregar otro evento? Si - No: '))
+    contrato=acepta_contrato(acepta)
+    if contrato:
+        print("• Panel para agregar un evento nuevo: \n")
+        nuevoevento = agregarnuevoevento(dictipoevento,evento)
+    if not contrato:
+        print('Gracias por agregar eventos')
+        print('-'*40)
+        print('Sistema de gestion de eventos: \n\n 1. Gestion de eventos \n 2. Agregue un evento nuevo \n 3. Cantidad de invitados de invitados \n 4. Facturacion \n 5. Salir del menu\n\n ')
+        print("*"*40)
+        menu = input('Ingrese el numero de programa a utilizar: ')
+        print("-"*40)
+        validarmenu(menu)
         
-        
-    
 
 #Funcion para elegir el menu
 def elegirmenu(menu):
@@ -214,7 +225,7 @@ def elegirmenu(menu):
             print("• Panel para agregar un evento nuevo: \n")
             nuevoevento = agregarnuevoevento(dictipoevento,evento)
             
-            
+#Funcion para calcular costo con diccionario            
 def calcular_costo(pers_may, pers_med, pers_men, event_type):
     total=0
     total= total+(pers_may*dicprecios["Jubilados"])
@@ -222,18 +233,21 @@ def calcular_costo(pers_may, pers_med, pers_men, event_type):
     total= total+(pers_men*dicprecios["Menores"])
     total= total+dictipoevento[str(event_type).capitalize()]
     return(total)
-            
+
+#Funcion para conocer si se acepta el contrato            
 def acepta_contrato(respuesta):
     
-    respuesta= validar_cadena_nombre_persona(respuesta, 'respuesta valida Y(YES) - N(NO)')
-    while str(respuesta).lower != 'y' and str(respuesta).lower != 'n':
-        respuesta= str(input('Ingrese una respuest valida Y(YES) - N(NO): '))
-        respuesta= validar_cadena_nombre_persona(respuesta, 'respuesta valida Y(YES) - N(NO)')
+    respuesta= validar_cadena_nombre_persona(respuesta, 'respuesta valida Si - No')
+    respuesta=respuesta.lower()
+    while respuesta != 'no' and respuesta != 'si':
+        respuesta= str(input('Ingrese una respuest valida Si - No: '))
+        respuesta= validar_cadena_nombre_persona(respuesta, 'respuesta valida Si - No')
+        respuesta=respuesta.lower()
 
     
-    if str(respuesta).lower== 'y':
+    if respuesta== 'si':
         acepta=True
-    elif str(respuesta).lower=='n':
+    elif respuesta=='no':
         acepta=False
     
     return acepta
