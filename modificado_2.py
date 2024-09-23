@@ -1,4 +1,5 @@
 import datetime
+import time
 import re
 
 #Funcion para validar la fecha
@@ -101,14 +102,13 @@ def validarmenu(menu):
 #Funcion para validar string y para validar el tipo de evento
 def validarevento(tipoevento):
     listatipoevento = dictipoevento.keys()
-    valido = tipoevento.isalpha()
+    valido = validar_cadena_nombre_persona(tipoevento, 'ingrese un evento correcto')
     
     while valido == False:
         print("Solo puede contener caracteres alfabeticos")
         tipoevento = input('Ingrese el tipo de evento: ')
         tipoevento = tipoevento.capitalize()
-        valido = tipoevento.isalpha()
-
+        valido = validar_cadena_nombre_persona(tipoevento, 'ingrese un evento correcto')
     while tipoevento not in listatipoevento:
         print("*Error, el evento solicitado no esta en las opciones. Por favor, seleccionee nuevamente el tipo de evento: *")
         for x in dictipoevento:
@@ -193,11 +193,13 @@ def agregarnuevoevento(dictipoevento,evento):
     cantidad_menores = validar_numeros(cantidad_menores,"la cantidad de menores")
     cantidad_invitados.append(cantidad_menores)
     evento.append(cantidad_invitados)
+
+    #Se calcula el costo total
     costo_evento=calcular_costo(cantidad_jubilados,cantidad_adultos,cantidad_menores,tipoevento)
     acepta= str(input(f'El costo del evento es de {costo_evento}, acepta el contrato? Si - No: '))
     contrato= acepta_contrato(acepta)
     if contrato:
-        matrizevento.append
+        matrizevento.append(evento)
         evento=[]
     if not contrato:
         evento=[]
@@ -209,7 +211,7 @@ def agregarnuevoevento(dictipoevento,evento):
     if not contrato:
         print('Gracias por agregar eventos')
         print('-'*40)
-        print('Sistema de gestion de eventos: \n\n 1. Gestion de eventos \n 2. Agregue un evento nuevo \n 3. Cantidad de invitados de invitados \n 4. Facturacion \n 5. Salir del menu\n\n ')
+        print('Sistema de gestion de eventos: \n\n 1. Gestion de eventos \n 2. Agregue un evento nuevo \n 3. Facturacion \n 4. Salir del menu\n\n ')
         print("*"*40)
         menu = input('Ingrese el numero de programa a utilizar: ')
         print("-"*40)
@@ -224,6 +226,10 @@ def elegirmenu(menu):
         case 2:
             print("• Panel para agregar un evento nuevo: \n")
             nuevoevento = agregarnuevoevento(dictipoevento,evento)
+        case 3:
+            print()
+            print("• Panel de facturación: ")
+            imprimir_facturacion(matrizevento,dictipoevento)
             
 #Funcion para calcular costo con diccionario            
 def calcular_costo(pers_may, pers_med, pers_men, event_type):
@@ -253,6 +259,74 @@ def acepta_contrato(respuesta):
     return acepta
 
 
+def imprimir_facturacion(matrizevento,dictipoevento):
+    if len(matrizevento) == 0:
+        print('-'*40)
+        print('Facturacion Eventos'.center(40)) 
+        print("~•~".center(40))
+        print('No hay eventos próximos'.center(40))  # Centra el texto en 40 caracteres
+        print('-' * 40)
+        print()
+        time.sleep(1.5)
+        print('Sistema de gestion de eventos: \n\n 1. Gestion de eventos \n 2. Agregue un evento nuevo \n 3. Facturacion \n 4. Salir del menu\n\n ')
+        print("*"*40)
+        menu = input('Ingrese el numero de programa a utilizar: ')
+        print("-"*40)
+        validarmenu(menu)
+    else:
+        for f in range(len(matrizevento)):
+            print(f'{f} -',matrizevento[f][1])
+        print("*"*40)    
+        nroevento=int(input('Elija uno de los eventos para realizar\nla factura: '))
+        
+        tipoevento = matrizevento[nroevento][0]
+        nombre=matrizevento[nroevento][1]
+        fecha_evento = matrizevento[nroevento][2]
+        nombrepersona=matrizevento[nroevento][3]
+        dnipersona=matrizevento[nroevento][4]
+        precio_tipo_evento = dictipoevento[matrizevento[nroevento][0]]
+        precio_mayores,precio_adultos,precio_menores,total = calcular(matrizevento[nroevento][5],matrizevento[nroevento][0])
+
+
+        print('-'*40)
+        print('Facturacion Eventos'.center(40)) 
+        print()
+        print()
+        print(str(f'Sr/a {nombrepersona}').ljust(30))
+        print(str(f'DNI: {dnipersona}'.rjust(10)))
+        print(str("Nombre de evento: ").ljust(30,' '),end='')
+        print(str(nombre).rjust(10))
+        print()
+        print(str(tipoevento).ljust(30,'.'),end='')
+        print(str(precio_tipo_evento).rjust(10,'.'))
+        print(str("Cantidad de mayores").ljust(30,'.'),end='')
+        print(str(precio_mayores).rjust(10,'.'))
+        print(str("Cantidad de adultos").ljust(30,'.'),end='')
+        print(str(precio_adultos).rjust(10,'.'))
+        print(str("Cantidad de menores").ljust(30,'.'),end='')
+        print(str(precio_menores).rjust(10,'.'))
+        print()
+        print("~"*40)
+        print()
+        print(str("Total").ljust(30,'.'),end='')
+        print(str(total).rjust(10,'.'))
+        print()
+        print('-'*40)
+
+
+def calcular(lista_cant, type_event):
+    total=0
+    precio_mayores = 0
+    precio_adultos = 0
+    precio_menores = 0
+    precio_mayores = lista_cant[0]*dicprecios["Jubilados"]
+    precio_adultos = lista_cant[1]*dicprecios["Adultos"]
+    precio_menores = lista_cant[2]*dicprecios["Menores"]
+    total= precio_mayores + precio_adultos + precio_menores + dictipoevento[type_event]
+    return precio_mayores,precio_adultos,precio_menores,total
+    
+
+
 ################################################### Programa principal ###############################################################
 evento=[]
 matrizevento=[]
@@ -261,7 +335,7 @@ listainvitados=[]
 dicprecios={'Jubilados' : 2000 ,'Adultos': 5000 , 'Menores' : 3000}
 dictipoevento = {'Casamiento' : 500000 , 'Fiesta de quince' : 600000 , 'Comunion' : 400000 , 'Evento personalizado' : 300000}
 
-print('Sistema de gestion de eventos: \n\n 1. Gestion de eventos \n 2. Agregue un evento nuevo \n 3. Cantidad de invitados de invitados \n 4. Facturacion \n 5. Salir del menu\n\n ')
+print('Sistema de gestion de eventos: \n\n 1. Gestion de eventos \n 2. Agregue un evento nuevo \n 3. Facturacion\n 4. Salir del menu \n\n ')
 print("*"*40)
 menu = input('Ingrese el numero de programa a utilizar: ')
 print("-"*40)
