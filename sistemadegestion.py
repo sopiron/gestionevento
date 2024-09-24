@@ -46,12 +46,13 @@ def validar_fecha_cargada(fecha_evento,evento):
     if fecha_evento in evento:
         fechaok = False
         print(f"Lo lamento, la fecha {fecha_evento} ya esta reservada.")
-        pregunta_reserva = input("¿Desea reservar otra fecha(1=Si y 2=No)?: ")
-        valor_variable = validar_numeros(pregunta_reserva,"la respuesta con 1=Si o 2=No")
-        while valor_variable != 1 or valor_variable != 2:
+        '''
+        pregunta_reserva = str(input("¿Desea reservar otra fecha? Si - No: "))
+        valor_variable = validar_cadena_nombre_persona(pregunta_reserva, "ingrese Si - No: ")
+        while not valor_variable:
             print("Error, la respuesta solo admite los numeros 1=Si y 2=No")
-            pregunta_reserva = input("Ingrese la respuesta con 1=Si o 2=No: ")
-            valor_variable = validar_numeros(pregunta_reserva,"la respuesta con 1=Si o 2=No")
+            pregunta_reserva = str(input("Ingrese la respuesta con 1=Si o 2=No: "))
+            valor_variable = validar_cadena_nombre_persona(pregunta_reserva,"ingrese Si - No: ")
         if valor_variable == 1:
             pass
         else:
@@ -62,6 +63,8 @@ def validar_fecha_cargada(fecha_evento,evento):
             validarmenu(menu)
     else:
         evento.append(fecha_evento)
+
+        '''
     return fechaok
 
 #Funcion para verificar que la cadena solo contenga letras
@@ -123,6 +126,7 @@ def validarevento(tipoevento):
 def agregarnuevoevento(dictipoevento,evento):
     cantidad_invitados = []
 
+
     # Ingresar tipo de evento
     print("Seleccione el tipo de evento: ")
     for x in dictipoevento:
@@ -139,8 +143,45 @@ def agregarnuevoevento(dictipoevento,evento):
     nombreevento = input("Ingrese el nombre del evento: ")
     nombreevento = validar_cadena_de_caracteres(nombreevento,"el nombre del evento")
     evento.append(nombreevento)
+    print()
+    if len(fechascargadas)==0:
+        fechaok=False
+        while not fechaok:
+            dia = input("Ingrese dia del evento: ")
+            dia = validar_numeros(dia,"el dia del evento")
+            
+
+            mes = input("Ingrese mes del evento: ")
+            mes = validar_numeros(mes,"el mes del evento")
+            
+            
+            anio = input("Ingrese anio del evento: ")
+            anio = validar_numeros(anio,"el año del evento")
+
+            fechaok=validarfecha(dia, mes, anio)
+        fechascargadas.append(datetime.date(anio, mes, dia))
+    else:
+        fechaok=False
+        while not fechaok or not cargado:
+            dia = input("Ingrese dia del evento: ")
+            dia = validar_numeros(dia,"el dia del evento")
+            
+
+            mes = input("Ingrese mes del evento: ")
+            mes = validar_numeros(mes,"el mes del evento")
+            
+            
+            anio = input("Ingrese anio del evento: ")
+            anio = validar_numeros(anio,"el año del evento")
+
+            fechaok=validarfecha(dia, mes, anio)
+            cargado= validar_fecha_cargada(datetime.date(anio, mes, dia), fechascargadas)
+        fechascargadas.append(datetime.date(anio, mes, dia))
+
+        
     
     # Ingresa fecha del evento
+    '''
     fechaok = False
     while fechaok == False:
         print()
@@ -164,7 +205,7 @@ def agregarnuevoevento(dictipoevento,evento):
             print (f"La fecha {fecha_evento} esta disponible")
         else:
             print("Error, la fecha es incorrecta, por favor vuelva a ingresar")
-            
+           ''' 
     #Ingresa nombre de la persona
     nombre_persona = input("Ingrese nombre: ")
     nombre_persona = validar_cadena_nombre_persona(nombre_persona,"el nombre: ")
