@@ -29,6 +29,7 @@ def validarfecha(dia,mes,anio):
     else:
         return False
 
+
 #Funcion para validar que la fecha solo tenga numeros
 def validar_numeros(valor_variable,nombre_variable):
     valido_variable = valor_variable.isdigit()
@@ -45,26 +46,8 @@ def validar_fecha_cargada(fecha_evento,evento):
     if fecha_evento in evento:
         fechaok = False
         print(f"Lo lamento, la fecha {fecha_evento} ya esta reservada.")
-        '''
-        pregunta_reserva = str(input("¿Desea reservar otra fecha? Si - No: "))
-        valor_variable = validar_cadena_nombre_persona(pregunta_reserva, "ingrese Si - No: ")
-        while not valor_variable:
-            print("Error, la respuesta solo admite los numeros 1=Si y 2=No")
-            pregunta_reserva = str(input("Ingrese la respuesta con 1=Si o 2=No: "))
-            valor_variable = validar_cadena_nombre_persona(pregunta_reserva,"ingrese Si - No: ")
-        if valor_variable == 1:
-            pass
-        else:
-            fechaok = True
-            print('Sistema de gestion de eventos: \n\n 1. Gestion de eventos \n 2. Agregue un evento nuevo \n 3. Cantidad de invitados de invitados \n 4. Facturacion \n 5. Salir del menu\n\n ')
-            print("*"*40)
-            menu = int(input('Ingrese el numero de programa a utilizar: '))
-            validarmenu(menu)
-    else:
-        evento.append(fecha_evento)
-
-        '''
     return fechaok
+
 
 #Funcion para verificar que la cadena solo contenga letras
 def validar_cadena_de_caracteres(valor_cadena,nombre_cadena):
@@ -78,6 +61,7 @@ def validar_cadena_de_caracteres(valor_cadena,nombre_cadena):
         valido_cadena = valor_cadena.isalnum()
     return valor_cadena
 
+
 #Funciona para verificar la cadena Nombre Persona
 def validar_cadena_nombre_persona(valor_cadena, nombre_cadena):
     aux= str(valor_cadena).replace(' ', '')
@@ -89,6 +73,8 @@ def validar_cadena_nombre_persona(valor_cadena, nombre_cadena):
         aux= str(valor_cadena).replace(' ', '')
         valido_cadena = aux.isalpha()
     return valor_cadena
+
+
 #Funcion para validar menu
 def validarmenu(menu):
     menu = validar_numeros(menu,"el numero de programa a utilizar")
@@ -143,6 +129,9 @@ def agregarnuevoevento(dictipoevento,evento):
     nombreevento = validar_cadena_de_caracteres(nombreevento,"el nombre del evento")
     evento.append(nombreevento)
     print()
+        
+    # Ingresa fecha del evento
+    
     if len(fechascargadas)==0:
         fechaok=False
         while not fechaok:
@@ -158,7 +147,11 @@ def agregarnuevoevento(dictipoevento,evento):
             anio = validar_numeros(anio,"el año del evento")
 
             fechaok=validarfecha(dia, mes, anio)
-            fecha=str(anio)+str(mes)+str(dia)
+
+            dia = str(dia).zfill(2)  # Agrega un 0 delante si es necesario
+            mes = str(mes).zfill(2)  # Agrega un 0 delante si es necesario
+
+            fecha=str(anio)+'-'+str(mes)+'-'+str(dia)
         fechascargadas.append(fecha)
     else:
         fechaok=False
@@ -175,39 +168,16 @@ def agregarnuevoevento(dictipoevento,evento):
             anio = validar_numeros(anio,"el año del evento")
 
             fechaok=validarfecha(dia, mes, anio)
-            fecha=str(anio)+str(mes)+str(dia)
+
+            dia = str(dia).zfill(2)  # Agrega un 0 delante si es necesario
+            mes = str(mes).zfill(2)  # Agrega un 0 delante si es necesario
+
+            fecha=str(anio)+'-'+str(mes)+'-'+str(dia)
 
             cargado= validar_fecha_cargada(fecha, fechascargadas)
         fechascargadas.append(fecha)
 
         
-    
-    # Ingresa fecha del evento
-    '''
-    fechaok = False
-    while fechaok == False:
-        print()
-        dia = input("Ingrese dia del evento: ")
-        dia = validar_numeros(dia,"el dia del evento")
-        
-
-        mes = input("Ingrese mes del evento: ")
-        mes = validar_numeros(mes,"el mes del evento")
-       
-        
-        anio = input("Ingrese anio del evento: ")
-        anio = validar_numeros(anio,"el año del evento")
-        
-        
-        #Se llama a la funcion validar fecha
-        if validarfecha(dia,mes,anio):
-            fechaok = True
-            fecha_evento = datetime.date(anio,mes,dia)
-            fechaok = validar_fecha_cargada(fecha_evento,evento)
-            print (f"La fecha {fecha_evento} esta disponible")
-        else:
-            print("Error, la fecha es incorrecta, por favor vuelva a ingresar")
-           ''' 
     #Ingresa nombre de la persona
     nombre_persona = input("Ingrese nombre: ")
     nombre_persona = validar_cadena_nombre_persona(nombre_persona,"el nombre: ")
@@ -273,7 +243,8 @@ def elegirmenu(menu):
             print()
             print("• Panel de facturación: ")
             imprimir_facturacion(matrizevento,dictipoevento)
-            
+
+
 #Funcion para calcular costo con diccionario            
 def calcular_costo(pers_may, pers_med, pers_men, event_type):
     total=0
@@ -282,6 +253,7 @@ def calcular_costo(pers_may, pers_med, pers_men, event_type):
     total= total+(pers_men*dicprecios["Menores"])
     total= total+dictipoevento[str(event_type).capitalize()]
     return(total)
+
 
 #Funcion para conocer si se acepta el contrato            
 def acepta_contrato(respuesta):
