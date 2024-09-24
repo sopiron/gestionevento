@@ -1,4 +1,3 @@
-import datetime
 import time
 import re
 
@@ -159,7 +158,8 @@ def agregarnuevoevento(dictipoevento,evento):
             anio = validar_numeros(anio,"el año del evento")
 
             fechaok=validarfecha(dia, mes, anio)
-        fechascargadas.append(datetime.date(anio, mes, dia))
+            fecha=str(anio)+str(mes)+str(dia)
+        fechascargadas.append(fecha)
     else:
         fechaok=False
         while not fechaok or not cargado:
@@ -175,8 +175,10 @@ def agregarnuevoevento(dictipoevento,evento):
             anio = validar_numeros(anio,"el año del evento")
 
             fechaok=validarfecha(dia, mes, anio)
-            cargado= validar_fecha_cargada(datetime.date(anio, mes, dia), fechascargadas)
-        fechascargadas.append(datetime.date(anio, mes, dia))
+            fecha=str(anio)+str(mes)+str(dia)
+
+            cargado= validar_fecha_cargada(fecha, fechascargadas)
+        fechascargadas.append(fecha)
 
         
     
@@ -322,11 +324,10 @@ def imprimir_facturacion(matrizevento,dictipoevento):
         
         tipoevento = matrizevento[nroevento][0]
         nombre=matrizevento[nroevento][1]
-        fecha_evento = matrizevento[nroevento][2]
-        nombrepersona=matrizevento[nroevento][3]
-        dnipersona=matrizevento[nroevento][4]
+        nombrepersona=matrizevento[nroevento][2]
+        dnipersona=matrizevento[nroevento][3]
         precio_tipo_evento = dictipoevento[matrizevento[nroevento][0]]
-        precio_mayores,precio_adultos,precio_menores,total = calcular(matrizevento[nroevento][5],matrizevento[nroevento][0])
+        precio_mayores,precio_adultos,precio_menores,total = calcular(matrizevento[nroevento][4],matrizevento[nroevento][0])
 
 
         print('-'*40)

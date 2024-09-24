@@ -16,12 +16,12 @@ def validarfecha(dia,mes,anio):
 #Funcion para validar que la fecha solo tenga numeros
 def validar_numeros(valor_variable,nombre_variable):
     aux= str(valor_variable).replace(' ', '')
-    valido_variable = valor_variable.isdigit()
-    while valido_variable == False:
+    valido_variable = aux.isdigit()
+    while not valido_variable:
         print(f"*Error, {nombre_variable} solo puede contener numeros enteros")
         valor_variable = input(f'Ingrese {nombre_variable}: ')
         aux= str(valor_variable).replace(' ', '')
-        valido_variable = valor_variable.isdigit()
+        valido_variable = aux.isdigit()
     return int(valor_variable)
 
 
@@ -124,32 +124,34 @@ def agregarnuevoevento(dictipoevento,matrizevento):
         evento.append(nombreevento)
         
         # Ingresa fecha del evento
-        fechaok = False
-        while fechaok == False:
-            print()
-            dia = input("Ingrese dia del evento: ")
-            dia = validar_numeros(dia,"el dia del evento")
-            
 
-            mes = input("Ingrese mes del evento: ")
-            mes = validar_numeros(mes,"el mes del evento")
-           
-            
-            anio = input("Ingrese año del evento: ")
-            anio = validar_numeros(anio,"el año del evento")
-            
-            
-            #Se llama a la funcion validar fecha
-            dia = str(dia).zfill(2)  # Agrega un 0 delante si es necesario
-            mes = str(mes).zfill(2)  # Agrega un 0 delante si es necesario
+        if len(fechascargadas)==0:
+            fechaok = False
+            while not fechaok:
+                print()
+                dia = input("Ingrese dia del evento: ")
+                dia = validar_numeros(dia,"el dia del evento")
+                
 
-            # Se llama a la función validar fecha
-            if validarfecha(int(dia), int(mes), int(anio)):
-                fechaok = True
-                fecha_evento = (dia, mes, anio)  # Almacena la fecha como una tupla
-                fechaok = validar_fecha_cargada(fecha_evento, matrizevento, evento)
-            else:
-                print("Error, la fecha es incorrecta, por favor vuelva a ingresar")
+                mes = input("Ingrese mes del evento: ")
+                mes = validar_numeros(mes,"el mes del evento")
+            
+                
+                anio = input("Ingrese año del evento: ")
+                anio = validar_numeros(anio,"el año del evento")
+                
+                
+                #Se llama a la funcion validar fecha
+                dia = str(dia).zfill(2)  # Agrega un 0 delante si es necesario
+                mes = str(mes).zfill(2)  # Agrega un 0 delante si es necesario
+
+                # Se llama a la función validar fecha
+                if validarfecha(int(dia), int(mes), int(anio)):
+                    fechaok = True
+                    fecha_evento = (dia, mes, anio)  # Almacena la fecha como una tupla
+                    fechaok = validar_fecha_cargada(fecha_evento, matrizevento, evento)
+                else:
+                    print("Error, la fecha es incorrecta, por favor vuelva a ingresar")
                 
         #Ingresa nombre de la persona
         nombre_persona = input("Ingrese el nombre de la persona: ")
@@ -268,11 +270,11 @@ def imprimir_facturacion(matrizevento,dicprecios,dictipoevento):
         
         tipoevento = matrizevento[nroevento][0]
         nombre=matrizevento[nroevento][1]
-        fecha_evento = matrizevento[nroevento][2]
-        nombrepersona=matrizevento[nroevento][3]
-        dnipersona=matrizevento[nroevento][4]
+        #fecha_evento = matrizevento[nroevento][2]
+        nombrepersona=matrizevento[nroevento][2]
+        dnipersona=matrizevento[nroevento][3]
         precio_tipo_evento = dictipoevento[matrizevento[nroevento][0]]
-        precio_mayores,precio_adultos,precio_menores,total = calcular_costo(matrizevento[nroevento][5])
+        precio_mayores,precio_adultos,precio_menores,total = calcular_costo(matrizevento[nroevento][4])
 
 
         print('-'*40)
@@ -327,6 +329,7 @@ def elegirmenu(menu):
 
 
 ################################################### Programa principal ###############################################################
+fechascargadas=[]
 matrizevento = []
 dicprecios={'Mayores' : 2000 ,'Adultos': 5000 , 'Menores' : 3000}
 dictipoevento = {'Casamiento' : 500000 , 'Fiesta de quince' : 600000 , 'Comunion' : 400000 , 'Evento personalizado' : 300000}
